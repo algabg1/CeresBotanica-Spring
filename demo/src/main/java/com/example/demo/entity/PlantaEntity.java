@@ -8,6 +8,9 @@ import lombok.*;
 
 import java.sql.Date;
 
+/**
+ * @Author: Breno Ricardo. Teste.
+ */
 @Entity(name = "planta")
 @Table(name = "planta")
 @Setter
