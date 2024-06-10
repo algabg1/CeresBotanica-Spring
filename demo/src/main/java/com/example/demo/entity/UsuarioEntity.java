@@ -38,8 +38,12 @@ public class UsuarioEntity {
     private List<ProjetoEntity> projetos;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value = "usuario-noticia")
     private List<NoticiaEntity> noticias;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "usuario-comentario")
+    private List<ComentarioEntity> comentarios;
 
 
 }
