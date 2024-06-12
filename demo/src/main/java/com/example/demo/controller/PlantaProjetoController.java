@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/projeto-planta")
-public class PlantaProjetoController extends GenericController<PlantaProjetoEntity, Long> {
+public class PlantaProjetoController implements GenericController<PlantaProjetoEntity, Long> {
 
     @Autowired
     private PlantaProjetoRepository plantaProjetoRepository;

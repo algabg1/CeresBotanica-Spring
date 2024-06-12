@@ -7,6 +7,8 @@ import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.repository.jpaRepository.UsuarioJpaRepository;
 import com.example.demo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioController extends GenericController<UsuarioEntity, String>{
+public class UsuarioController implements GenericController<UsuarioEntity, String>{
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -23,36 +25,34 @@ public class UsuarioController extends GenericController<UsuarioEntity, String>{
     private UsuarioService usuarioService;
 
     /**
-     *
-     * @return retorna uma lista contendo todos os usuarios cadastrados
+     * Apenas para teste
+     * @return retorna uma lista contendo todos os usuarios cadastrados e sua composição
      */
-    @GetMapping("/usuarios-all")
+    //@GetMapping("/usuarios-all")
     @Override
     public ResponseEntity<List<UsuarioEntity>> listAll() {
         List<UsuarioEntity> pessoa = usuarioRepository.findAll();
         return ResponseEntity.ok(pessoa);
     }
 
+
+    /**
+     * @return retorna uma lista contendo todos os usuários cadastrados como DTOs
+     */
     @GetMapping("/usuarios")
-    public ResponseEntity<List<UsuarioDTO>> getUser() {
-        List<UsuarioDTO> pessoa = usuarioService.getAllUsuarios();
-        return ResponseEntity.ok(pessoa);
+    public ResponseEntity<List<UsuarioDTO>> listAllDtos() {
+        List<UsuarioDTO> pessoas = usuarioService.getAllUsuarios();
+        return ResponseEntity.ok(pessoas);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}")
     @Override
-    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody UsuarioEntity updatedPessoa) {
-        Optional<UsuarioEntity> usuarioEntityOptional = usuarioRepository.findById(id);
-
-        if (usuarioEntityOptional.isPresent()) {
-            UsuarioEntity usuarioEntity = usuarioEntityOptional.get();
-            usuarioEntity.setNome(updatedPessoa.getNome());
-            usuarioEntity.setEmail(updatedPessoa.getEmail());
-            usuarioEntity.setSenha(updatedPessoa.getSenha());
-            this.usuarioRepository.save(usuarioEntity);
-            return ResponseEntity.ok("usuario atualizado com sucesso");
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody UsuarioEntity usuario) {
+        UsuarioEntity user = usuarioService.update(id, usuario);
+        if (user != null) {
+            return ResponseEntity.ok("Usuário atualizado com sucesso!");
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado com o ID " + id);
         }
     }
 

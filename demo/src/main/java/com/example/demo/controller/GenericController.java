@@ -13,10 +13,10 @@ import java.util.Optional;
  * @param <T> Generic que deve ser substituido pelo tipo da entidade
  * @param <R> define o tipo de retorno para update, create e delete
  */
-public abstract class GenericController<T,R>{
+public interface GenericController<T,R>{
 
 
-    public abstract ResponseEntity<List<T>> listAll();
+   ResponseEntity<List<T>> listAll();
 
     public abstract ResponseEntity<R> update(@PathVariable Long id, @RequestBody T updatedEntity);
 

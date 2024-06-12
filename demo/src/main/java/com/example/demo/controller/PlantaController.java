@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/planta")
-public class PlantaController extends GenericController<PlantaEntity, String>{
+public class PlantaController implements GenericController<PlantaEntity, String>{
 
     @Autowired
     private PlantaRepository plantaRepository;

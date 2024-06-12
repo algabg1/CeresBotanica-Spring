@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/comentario")
-public class ComentarioController extends GenericController<ComentarioEntity, String> {
+public class ComentarioController implements GenericController<ComentarioEntity, String> {
 
     @Autowired
     private ComentarioService comentarioService;

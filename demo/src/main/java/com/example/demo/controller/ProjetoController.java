@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/projeto")
-public class ProjetoController extends GenericController<ProjetoEntity, String>{
+public class ProjetoController implements GenericController<ProjetoEntity, String>{
 
     @Autowired
     private ProjetoRepository projetoRepository;

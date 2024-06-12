@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/noticia")
-public class NoticiaController extends GenericController<NoticiaEntity, String> {
+public class NoticiaController implements GenericController<NoticiaEntity, String> {
 
     @Autowired
     private NoticiaRepository noticiaRepository;
