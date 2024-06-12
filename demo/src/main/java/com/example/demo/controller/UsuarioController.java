@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.ProjetoEntity;
 import com.example.demo.entity.UsuarioEntity;
+import com.example.demo.entity.dto.UsuarioDTO;
 import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.repository.jpaRepository.UsuarioJpaRepository;
+import com.example.demo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,17 +20,22 @@ public class UsuarioController extends GenericController<UsuarioEntity, String>{
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private UsuarioJpaRepository usuarioJpaRepository;
+    private UsuarioService usuarioService;
 
     /**
      *
      * @return retorna uma lista contendo todos os usuarios cadastrados
      */
-
-    @GetMapping("/usuarios")
+    @GetMapping("/usuarios-all")
     @Override
     public ResponseEntity<List<UsuarioEntity>> listAll() {
         List<UsuarioEntity> pessoa = usuarioRepository.findAll();
+        return ResponseEntity.ok(pessoa);
+    }
+
+    @GetMapping("/usuarios")
+    public ResponseEntity<List<UsuarioDTO>> getUser() {
+        List<UsuarioDTO> pessoa = usuarioService.getAllUsuarios();
         return ResponseEntity.ok(pessoa);
     }
 
