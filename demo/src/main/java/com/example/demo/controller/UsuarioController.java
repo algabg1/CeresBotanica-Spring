@@ -28,10 +28,10 @@ public class UsuarioController implements GenericController<UsuarioEntity, Strin
      * Apenas para teste
      * @return retorna uma lista contendo todos os usuarios cadastrados e sua composição
      */
-    //@GetMapping("/usuarios-all")
+    @GetMapping("/usuarios-all")
     @Override
     public ResponseEntity<List<UsuarioEntity>> listAll() {
-        List<UsuarioEntity> pessoa = usuarioRepository.findAll();
+        List<UsuarioEntity> pessoa = usuarioService.listAll();
         return ResponseEntity.ok(pessoa);
     }
 
@@ -59,7 +59,6 @@ public class UsuarioController implements GenericController<UsuarioEntity, Strin
     @PostMapping("/criar")
     @Override
     public ResponseEntity<String> create(@RequestBody UsuarioEntity usuario) {
-        this.usuarioRepository.save(usuario);
         return ResponseEntity.ok("Usuário criado com sucesso");
     }
 
@@ -79,9 +78,9 @@ public class UsuarioController implements GenericController<UsuarioEntity, Strin
     @GetMapping("/{id}")
     @Override
     public ResponseEntity<UsuarioEntity> getById(Long id) {
-        Optional<UsuarioEntity> usuario = usuarioRepository.findById(id);
-        if (usuario.isPresent()) {
-            return ResponseEntity.ok(usuario.get());
+        UsuarioEntity usuario = usuarioService.getById(id);
+        if (usuario != null) {
+            return ResponseEntity.ok(usuario);
         } else {
             return ResponseEntity.notFound().build();
         }

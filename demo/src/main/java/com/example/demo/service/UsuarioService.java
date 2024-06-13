@@ -5,6 +5,8 @@ import com.example.demo.entity.UsuarioEntity;
 import com.example.demo.entity.dto.ComentarioDTO;
 import com.example.demo.entity.dto.UsuarioDTO;
 import com.example.demo.repository.UsuarioRepository;
+import io.micrometer.common.util.internal.logging.InternalLogLevel;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,9 +34,13 @@ public class UsuarioService extends GenericService<UsuarioEntity, UsuarioReposit
         return dto;
     }
 
+    /**
+     * Implementar regra de negocio aqui se houver
+     * @return
+     */
     @Override
     public List<UsuarioEntity> listAll() {
-        return List.of();
+        return getService().findAll();
     }
 
     @Override
@@ -55,7 +61,15 @@ public class UsuarioService extends GenericService<UsuarioEntity, UsuarioReposit
 
     @Override
     public UsuarioEntity create(UsuarioEntity entity) {
-        return null;
+        try {
+            if(getService().findByEmail(entity.getEmail()) != null){
+                throw new IllegalArgumentException("Email já registrado");
+            }
+            return this.getService().save(entity);
+        }
+        catch (Exception e){
+            throw new IllegalArgumentException("Ocorreu um erro.");
+        }
     }
 
     @Override
@@ -65,6 +79,12 @@ public class UsuarioService extends GenericService<UsuarioEntity, UsuarioReposit
 
     @Override
     public UsuarioEntity getById(Long id) {
-        return null;
+        Optional<UsuarioEntity>usuario = getService().findById(id);
+        if(usuario.isPresent()){
+            return usuario.get();
+        }
+        else {
+            return null;
+        }
     }
 }
