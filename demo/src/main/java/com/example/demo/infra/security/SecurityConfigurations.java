@@ -29,6 +29,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/registrar").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/projeto/criar").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/planta/plantas").hasRole("ADMIN")
                         .anyRequest().authenticated()
 

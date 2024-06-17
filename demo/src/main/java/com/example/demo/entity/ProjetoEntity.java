@@ -21,16 +21,19 @@ public class ProjetoEntity {
     @Column(name = "idprojeto")
     private Long idProjeto;
 
+    @Column(name = "idusuario")
+    private Long idusuario;
+
     @Column(name = "nome", nullable = false)
     private String nome;
 
     @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idusuario", nullable = false)
     @JsonBackReference
-    private UsuarioEntity usuario;
+    private UsuarioEntity usuario;*/
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_projeto")

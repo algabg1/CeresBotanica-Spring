@@ -14,7 +14,4 @@ public class ProjetoService{
     @Autowired
     private ProjetoJpaRepository projetoJpaRepository;
 
-    public List<ProjetoEntity> listarProjetos() {
-        return projetoJpaRepository.findAllWithUsuario();
-    }
 }

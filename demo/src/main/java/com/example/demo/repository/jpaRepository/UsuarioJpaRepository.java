@@ -8,6 +8,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface UsuarioJpaRepository extends JpaRepository<UsuarioEntity, Long>, JpaSpecificationExecutor<UsuarioEntity> {
-    @Query("SELECT u FROM usuario u ORDER BY LENGTH(u.senha) DESC")
-    List<UsuarioEntity> findBysenhaLength();
+
 }

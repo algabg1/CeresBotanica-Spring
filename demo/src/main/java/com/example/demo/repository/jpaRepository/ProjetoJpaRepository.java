@@ -9,6 +9,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProjetoJpaRepository extends JpaRepository<ProjetoEntity, Long>, JpaSpecificationExecutor<ProjetoEntity> {
-    @Query("SELECT p FROM projeto p JOIN FETCH p.usuario")
-    List<ProjetoEntity> findAllWithUsuario();
 }

@@ -46,9 +46,9 @@ public class ProjetoController implements GenericController<ProjetoEntity, Strin
     }
     @PostMapping("/criar")
     @Override
-    public ResponseEntity<String> create(ProjetoEntity entity) {
+    public ResponseEntity<String> create(@RequestBody ProjetoEntity entity) {
         this.projetoRepository.save(entity);
-        return ResponseEntity.ok("Usuário criado com sucesso");
+        return ResponseEntity.ok("criado");
     }
 
     @DeleteMapping("/{id}")

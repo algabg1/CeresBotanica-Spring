@@ -10,6 +10,10 @@ import lombok.Setter;
 @Setter
 @Getter
 public class RegistrarDTO {
+
+    @JsonProperty("nome")
+    private String nome;
+
     @JsonProperty("email")
     private String login;
 

@@ -41,9 +41,9 @@ public class UsuarioEntity implements UserDetails {
 
     private String senha;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    /*@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<ProjetoEntity> projetos;
+    private List<ProjetoEntity> projetos;*/
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "usuario-noticia")
@@ -57,7 +57,8 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "role_user")
     private RoleUser user_role;
 
-    public UsuarioEntity(String email, String senha, RoleUser role){
+    public UsuarioEntity(String nome, String email, String senha, RoleUser role){
+        this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.user_role = role;

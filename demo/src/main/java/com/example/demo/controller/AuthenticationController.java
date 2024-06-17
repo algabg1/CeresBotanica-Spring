@@ -49,7 +49,7 @@ public class AuthenticationController {
         }
         else {
             String encryptedPassword = new BCryptPasswordEncoder().encode(data.getSenha());
-            UsuarioEntity newUser = new UsuarioEntity(data.getLogin(), encryptedPassword, RoleUser.USER);
+            UsuarioEntity newUser = new UsuarioEntity(data.getNome(), data.getLogin(), encryptedPassword, RoleUser.USER);
             this.usuarioRepository.save(newUser);
             return ResponseEntity.ok().build();
         }
