@@ -44,7 +44,7 @@ public class SecurityConfigurations {
     }
 
     @Bean
-    public CorsConfigurationSource c() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:9000")); // Adicione a origem do seu frontend
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
