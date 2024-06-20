@@ -10,6 +10,7 @@ import com.example.demo.service.TokenService;
 import jakarta.validation.Valid;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -51,7 +52,8 @@ public class AuthenticationController {
             String encryptedPassword = new BCryptPasswordEncoder().encode(data.getSenha());
             UsuarioEntity newUser = new UsuarioEntity(data.getNome(), data.getLogin(), encryptedPassword, RoleUser.USER);
             this.usuarioRepository.save(newUser);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+            //return ResponseEntity.ok().build();
         }
         return null;
     }
