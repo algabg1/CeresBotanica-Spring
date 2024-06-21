@@ -32,4 +32,8 @@ public class ComentarioService {
         dto.setNomeUsuario(comentario.getUsuario().getNome());
         return dto;
     }
+
+    public void adicionar(ComentarioEntity entity) {
+        comentarioJpaRepository.adicionarComentario(entity.getUsuario().getId(), entity.getNoticia().getIdNoticia(), entity.getConteudo());
+    }
 }

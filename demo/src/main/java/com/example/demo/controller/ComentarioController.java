@@ -4,11 +4,10 @@ import com.example.demo.entity.ComentarioEntity;
 import com.example.demo.entity.dto.ComentarioDTO;
 import com.example.demo.repository.ComentarioRepository;
 import com.example.demo.service.ComentarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,9 +34,10 @@ public class ComentarioController implements GenericController<ComentarioEntity,
         return null;
     }
 
-    @Override
-    public ResponseEntity<String> create(ComentarioEntity entity) {
-        return null;
+    @PostMapping("adicionar")
+    public ResponseEntity<String> create(@RequestBody @Valid ComentarioEntity entity) {
+        this.comentarioService.adicionar(entity);
+        return ResponseEntity.ok("criado");
     }
 
     @Override
