@@ -50,7 +50,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         return (path.equals("/auth/login") && method.equals("POST")) ||
                 (path.equals("/auth/registrar") && method.equals("POST")) ||
-                (path.equals("/noticia/noticias") && method.equals("GET"));
+                (path.equals("/noticia/noticias") && method.equals("GET")) ||
+                (path.equals("/comentario/adicionar") && method.equals(("POST"))
+                );
     }
 
     private String recoverToken(HttpServletRequest request){

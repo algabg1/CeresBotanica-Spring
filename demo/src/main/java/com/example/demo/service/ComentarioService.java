@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.ComentarioEntity;
 import com.example.demo.entity.dto.ComentarioDTO;
+import com.example.demo.entity.dto.ComentarioNoticiaDTO;
 import com.example.demo.repository.ComentarioRepository;
 import com.example.demo.repository.jpaRepository.ComentarioJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class ComentarioService {
         return dto;
     }
 
-    public void adicionar(ComentarioEntity entity) {
-        comentarioJpaRepository.adicionarComentario(entity.getUsuario().getId(), entity.getNoticia().getIdNoticia(), entity.getConteudo());
+    public void adicionar(ComentarioNoticiaDTO entity) {
+        comentarioJpaRepository.adicionarComentario(entity.getIdUsuario(), entity.getIdNoticia(), entity.getConteudo());
     }
 }

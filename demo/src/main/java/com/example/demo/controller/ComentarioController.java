@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.ComentarioEntity;
 import com.example.demo.entity.dto.ComentarioDTO;
+import com.example.demo.entity.dto.ComentarioNoticiaDTO;
 import com.example.demo.repository.ComentarioRepository;
 import com.example.demo.service.ComentarioService;
 import jakarta.validation.Valid;
@@ -34,8 +35,13 @@ public class ComentarioController implements GenericController<ComentarioEntity,
         return null;
     }
 
-    @PostMapping("adicionar")
-    public ResponseEntity<String> create(@RequestBody @Valid ComentarioEntity entity) {
+    @Override
+    public ResponseEntity<String> create(ComentarioEntity entity) {
+        return null;
+    }
+
+    @PostMapping("/adicionar")
+    public ResponseEntity<String> createComentNoticia(@RequestBody @Valid ComentarioNoticiaDTO entity) {
         this.comentarioService.adicionar(entity);
         return ResponseEntity.ok("criado");
     }
