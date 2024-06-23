@@ -2,9 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.ProjetoEntity;
 import com.example.demo.entity.UsuarioEntity;
+import com.example.demo.entity.dto.ProjetoDTO;
 import com.example.demo.repository.ProjetoRepository;
 import com.example.demo.repository.UsuarioRepository;
+import com.example.demo.service.ProjetoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +21,9 @@ public class ProjetoController implements GenericController<ProjetoEntity, Strin
 
     @Autowired
     private ProjetoRepository projetoRepository;
+
+    @Autowired
+    private ProjetoService projetoService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -44,11 +51,28 @@ public class ProjetoController implements GenericController<ProjetoEntity, Strin
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping("/criar")
+
+    /**
+     * @deprecated  nao sera mais utilizado e nao pode ser removido. Está aqui para depurar
+     * @param entity
+     * @return
+     */
+    @Deprecated
     @Override
     public ResponseEntity<String> create(@RequestBody ProjetoEntity entity) {
-        this.projetoRepository.save(entity);
+        //this.projetoRepository.save(entity);
         return ResponseEntity.ok("criado");
+    }
+
+    @PostMapping("/criar")
+    public ResponseEntity<String> create(@RequestBody @Valid ProjetoDTO entity) {
+        boolean status =  this.projetoService.criarProjeto(entity);
+        if(status){
+            return ResponseEntity.status(HttpStatus.CREATED).body("Projeto criado com sucesso!");
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Nao criado!");
+        }
     }
 
     @DeleteMapping("/{id}")

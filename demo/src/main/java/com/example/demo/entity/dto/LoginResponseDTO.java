@@ -1,4 +1,6 @@
 package com.example.demo.entity.dto;
 
-public record LoginResponseDTO (String token){
+import com.example.demo.entity.UsuarioEntity;
+
+public record LoginResponseDTO (String token, UsuarioEntity usuario){
 }
