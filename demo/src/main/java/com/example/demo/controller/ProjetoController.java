@@ -77,7 +77,7 @@ public class ProjetoController implements GenericController<ProjetoEntity, Strin
 
     @DeleteMapping("/{id}")
     @Override
-    public ResponseEntity<String> delete(Long id) {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         Optional<ProjetoEntity> projetoEntityOptional = projetoRepository.findById(id);
 
         if (projetoEntityOptional.isPresent()) {
@@ -96,5 +96,11 @@ public class ProjetoController implements GenericController<ProjetoEntity, Strin
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<?> getProjetosByUserId(@PathVariable Long id){
+        List<ProjetoEntity>projetoEntities = projetoService.getProjetosByUserId(id);
+        return ResponseEntity.ok(projetoEntities);
     }
 }

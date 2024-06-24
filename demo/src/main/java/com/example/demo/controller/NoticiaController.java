@@ -50,7 +50,9 @@ public class NoticiaController implements GenericController<NoticiaEntity, Strin
     }
 
     @Override
+    @DeleteMapping("deletar/{id}")
     public ResponseEntity<String> delete(Long id) {
+
         return null;
     }
 
@@ -64,4 +66,6 @@ public class NoticiaController implements GenericController<NoticiaEntity, Strin
             return ResponseEntity.notFound().build();
         }
     }
+
+
 }

@@ -4,5 +4,5 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-public record ProjetoDTO(String nome, String descricao, Long idUsuario, String tipo_projeto) {
+public record ProjetoDTO(String nome, String descricao, Long idUsuario, String tipoProjeto) {
 }
