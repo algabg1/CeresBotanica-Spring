@@ -3,7 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.entity.PlantaEntity;
 import com.example.demo.entity.ProjetoEntity;
 import com.example.demo.entity.UsuarioEntity;
+import com.example.demo.entity.dto.PlantaDTO;
 import com.example.demo.repository.PlantaRepository;
+import com.example.demo.service.PlantaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,9 @@ public class PlantaController implements GenericController<PlantaEntity, String>
 
     @Autowired
     private PlantaRepository plantaRepository;
+
+    @Autowired
+    private PlantaService plantaService;
 
     @GetMapping("/plantas")
     @Override
@@ -36,7 +42,7 @@ public class PlantaController implements GenericController<PlantaEntity, String>
             plantaEntity.setDescricao(updatedEntity.getDescricao());
             plantaEntity.setOrigem(updatedEntity.getOrigem());
             plantaEntity.setCuidados(updatedEntity.getCuidados());
-            plantaEntity.setImagem(updatedEntity.getImagem());
+            //plantaEntity.setImagem(updatedEntity.getImagem());
             plantaEntity.setDataregistro(updatedEntity.getDataregistro());
             plantaEntity.setCategoria(updatedEntity.getCategoria());
 
@@ -47,10 +53,17 @@ public class PlantaController implements GenericController<PlantaEntity, String>
         }
     }
 
-    @PostMapping("/criar")
+    //@PostMapping("/criar")
+    @Deprecated
     @Override
-    public ResponseEntity<String> create(PlantaEntity entity) {
+    public ResponseEntity<String> create(@RequestBody @Valid PlantaEntity entity) {
         this.plantaRepository.save(entity);
+        return ResponseEntity.ok("Planta criado com sucesso");
+    }
+
+    @PostMapping("/criar")
+    public ResponseEntity<String> create(@RequestBody @Valid PlantaDTO entity) {
+        plantaService.criar(entity);
         return ResponseEntity.ok("Planta criado com sucesso");
     }
 

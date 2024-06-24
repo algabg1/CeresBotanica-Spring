@@ -2,7 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.NoticiaEntity;
 import com.example.demo.entity.UsuarioEntity;
+import com.example.demo.entity.dto.NoticiaDTO;
 import com.example.demo.repository.NoticiaRepository;
+import com.example.demo.service.NoticiaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,9 @@ public class NoticiaController implements GenericController<NoticiaEntity, Strin
     @Autowired
     private NoticiaRepository noticiaRepository;
 
+    @Autowired
+    private NoticiaService noticiaService;
+
     @GetMapping("/noticias")
     @Override
     public ResponseEntity<List<NoticiaEntity>> listAll() {
@@ -30,10 +36,16 @@ public class NoticiaController implements GenericController<NoticiaEntity, Strin
         return null;
     }
 
-    @PostMapping("/criar")
+    @Deprecated
     @Override
     public ResponseEntity<String> create(NoticiaEntity entity) {
         this.noticiaRepository.save(entity);
+        return ResponseEntity.ok("Noticia criado com sucesso");
+    }
+
+    @PostMapping("/criar")
+    public ResponseEntity<String> create(@RequestBody @Valid NoticiaDTO entity) {
+        this.noticiaService.create(entity);
         return ResponseEntity.ok("Noticia criado com sucesso");
     }
 

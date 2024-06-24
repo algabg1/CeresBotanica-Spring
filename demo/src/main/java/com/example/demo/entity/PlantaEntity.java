@@ -39,9 +39,9 @@ public class PlantaEntity {
 
     private String cuidados;
 
-    @Lob
+    /*@Lob
     @Column(name = "imagem")
-    private byte[] imagem;
+    private byte[] imagem;*/
 
     private Date dataregistro;
 

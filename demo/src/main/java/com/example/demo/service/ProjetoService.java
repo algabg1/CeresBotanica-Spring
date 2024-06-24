@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.Enum.TipoProjetoEnum;
 import com.example.demo.entity.dto.ProjetoDTO;
 import com.example.demo.repository.jpaRepository.ProjetoJpaRepository;
+import com.example.demo.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +23,8 @@ public class ProjetoService{
      */
     public boolean criarProjeto(ProjetoDTO entity){
         try {
-            AtomicBoolean findSomething = new AtomicBoolean(false);
-            Stream.of(TipoProjetoEnum.values()).forEach((x) ->{
-                if(x.toString().equalsIgnoreCase(entity.tipo_projeto())){
-                    findSomething.set(true);
-                }
-            });
-            if(findSomething.get()){
+            boolean findSomething = Utils.findMatchEnum(entity.tipo_projeto(), TipoProjetoEnum.class);
+            if(findSomething){
                 projetoJpaRepository.adicionarProjeto(entity.nome(), entity.descricao(), entity.idUsuario(), entity.tipo_projeto());
                 return true;
             }
