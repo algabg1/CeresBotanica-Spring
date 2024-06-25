@@ -39,6 +39,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/comentario/comentarios").permitAll()
                         .requestMatchers(HttpMethod.POST, "/comentario/adicionar").permitAll()
                         .requestMatchers("/projeto/**").hasRole("USER")
+                        .requestMatchers("/planta/plantas").hasRole("USER")
                         .requestMatchers("/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
