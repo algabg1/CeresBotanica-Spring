@@ -38,7 +38,6 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/noticia/noticias").permitAll()
                         .requestMatchers(HttpMethod.GET, "/comentario/comentarios").permitAll()
                         .requestMatchers(HttpMethod.POST, "/comentario/adicionar").permitAll()
-                        // Adicione as seguintes linhas para permitir acesso ao Swagger
                         .requestMatchers("/swagger-ui.html").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
