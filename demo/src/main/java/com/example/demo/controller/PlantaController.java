@@ -41,6 +41,7 @@ public class PlantaController implements GenericController<PlantaEntity, String>
 
         if (plantaOptional.isPresent()) {
             PlantaEntity plantaEntity = plantaOptional.get();
+            plantaEntity.setNome(entity.nome());
             plantaEntity.setNome_cientifico(entity.nome_cientifico());
             plantaEntity.setDescricao(entity.descricao());
             plantaEntity.setOrigem(entity.origem());

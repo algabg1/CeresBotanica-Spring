@@ -41,7 +41,7 @@ public class PlantaProjetoController implements GenericController<PlantaProjetoE
 
     /**
      *
-     * @return retorna uma lista de todos os registros de plantas em todos os projetos. Apenas para depuraçao
+     * @return
      */
     @GetMapping("/minhas-plantas/{id}")
     public ResponseEntity<List<PlantaProjetoEntity>> listAll(@PathVariable Long id) {
