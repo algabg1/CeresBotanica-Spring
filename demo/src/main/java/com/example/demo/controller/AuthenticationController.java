@@ -46,7 +46,7 @@ public class AuthenticationController {
     @PostMapping("/registrar")
     public  ResponseEntity<UsuarioEntity> registrar(@RequestBody @Valid RegistrarDTO data){
         if(this.usuarioRepository.findByEmail(data.getLogin()) != null){
-            ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build();
         }
         else {
             String encryptedPassword = new BCryptPasswordEncoder().encode(data.getSenha());
@@ -55,7 +55,6 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
             //return ResponseEntity.ok().build();
         }
-        return null;
     }
 
 }

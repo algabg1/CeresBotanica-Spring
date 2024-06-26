@@ -43,6 +43,13 @@ public class ProjetoController implements GenericController<ProjetoEntity, Strin
         return null;
     }
 
+
+    /**
+     *
+     * @param entity
+     * @param id
+     * @return
+     */
     @PutMapping("/editar/{id}")
     public ResponseEntity<?> edit(@RequestBody ProjetoDTO entity, @PathVariable Long id){
         Optional<ProjetoEntity> projetoEntityOptional = projetoRepository.findById(id);
@@ -82,6 +89,11 @@ public class ProjetoController implements GenericController<ProjetoEntity, Strin
         }
     }
 
+    /**
+     * 
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<String> delete(@PathVariable Long id) {
