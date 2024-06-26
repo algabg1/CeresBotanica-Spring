@@ -53,7 +53,10 @@ public class SecurityConfigurations {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:9000")); // Adicione a origem do seu frontend
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:9000",
+                "http://dw-aula.s3-website-us-east-1.amazonaws.com"
+        )); // Adicione a origem do seu frontend
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
