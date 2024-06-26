@@ -1,16 +1,19 @@
 package com.example.demo.controller;
 
+import com.example.demo.Enum.CategoriaEnum;
 import com.example.demo.entity.PlantaEntity;
 import com.example.demo.entity.ProjetoEntity;
 import com.example.demo.entity.UsuarioEntity;
 import com.example.demo.entity.dto.PlantaDTO;
 import com.example.demo.repository.PlantaRepository;
 import com.example.demo.service.PlantaService;
+import com.example.demo.utils.Utils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,20 +34,21 @@ public class PlantaController implements GenericController<PlantaEntity, String>
         return ResponseEntity.ok(plantaEntities);
     }
 
-    @PutMapping("/{id}")
-    @Override
-    public ResponseEntity<String> update(Long id, PlantaEntity updatedEntity) {
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<?> edit(@RequestBody @Valid PlantaDTO entity, @PathVariable Long id){
         Optional<PlantaEntity> plantaOptional = plantaRepository.findById(id);
 
         if (plantaOptional.isPresent()) {
             PlantaEntity plantaEntity = plantaOptional.get();
-            plantaEntity.setNome_cientifico(updatedEntity.getNome_cientifico());
-            plantaEntity.setDescricao(updatedEntity.getDescricao());
-            plantaEntity.setOrigem(updatedEntity.getOrigem());
-            plantaEntity.setCuidados(updatedEntity.getCuidados());
-            //plantaEntity.setImagem(updatedEntity.getImagem());
-            plantaEntity.setDataregistro(updatedEntity.getDataregistro());
-            plantaEntity.setCategoria(updatedEntity.getCategoria());
+            plantaEntity.setNome_cientifico(entity.nome_cientifico());
+            plantaEntity.setDescricao(entity.descricao());
+            plantaEntity.setOrigem(entity.origem());
+            plantaEntity.setCuidados(entity.cuidados());
+            Date date;
+            plantaEntity.setDataregistro(Date.valueOf(entity.dataregistro()));
+            if(!Utils.findMatchEnum(entity.categoria(), CategoriaEnum.class)){throw new RuntimeException("Enum invalido");}
+            plantaEntity.setCategoria(CategoriaEnum.valueOf(entity.categoria().toUpperCase()));
 
             plantaRepository.save(plantaEntity);
             return ResponseEntity.ok("Planta atualizada com sucesso");
@@ -53,12 +57,19 @@ public class PlantaController implements GenericController<PlantaEntity, String>
         }
     }
 
+
+
+    @Deprecated
+    @Override
+    public ResponseEntity<String> update(Long id, PlantaEntity updatedEntity) {
+        return null;
+    }
+
     //@PostMapping("/criar")
     @Deprecated
     @Override
     public ResponseEntity<String> create(@RequestBody @Valid PlantaEntity entity) {
-        this.plantaRepository.save(entity);
-        return ResponseEntity.ok("Planta criado com sucesso");
+        return null;
     }
 
     @PostMapping("/criar")
