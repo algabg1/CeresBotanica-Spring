@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.Enum.TipoProjetoEnum;
 import com.example.demo.entity.ProjetoEntity;
 import com.example.demo.entity.UsuarioEntity;
 import com.example.demo.entity.dto.ProjetoDTO;
 import com.example.demo.repository.ProjetoRepository;
 import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.service.ProjetoService;
+import com.example.demo.utils.Utils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,16 +37,21 @@ public class ProjetoController implements GenericController<ProjetoEntity, Strin
         return ResponseEntity.ok(projetoEntities);
     }
 
-    @PutMapping("/{id}")
+    @Deprecated
     @Override
     public ResponseEntity<String> update(Long id, ProjetoEntity updatedEntity) {
-        Optional<ProjetoEntity> projetoEntityOptional = projetoRepository.findById(id);
+        return null;
+    }
 
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<?> edit(@RequestBody ProjetoDTO entity, @PathVariable Long id){
+        Optional<ProjetoEntity> projetoEntityOptional = projetoRepository.findById(id);
         if (projetoEntityOptional.isPresent()) {
             ProjetoEntity projetoEntity = projetoEntityOptional.get();
-            projetoEntity.setNome(updatedEntity.getNome());
-            projetoEntity.setDescricao(updatedEntity.getDescricao());
-            //Preciso dar um findById agora na pessoa
+            projetoEntity.setNome(entity.nome());
+            projetoEntity.setDescricao(entity.descricao());
+            if (!Utils.findMatchEnum(entity.tipoProjeto(), TipoProjetoEnum.class)){throw new RuntimeException("enum nao encontrado");}
+            projetoEntity.setTipoProjeto(TipoProjetoEnum.valueOf(entity.tipoProjeto().toUpperCase()));
             this.projetoRepository.save(projetoEntity);
             return ResponseEntity.ok("usuario atualizado com sucesso");
         } else {
