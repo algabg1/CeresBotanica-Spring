@@ -10,6 +10,10 @@ import com.example.demo.service.PlantaService;
 import com.example.demo.utils.Utils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +23,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/planta")
-public class PlantaController implements GenericController<PlantaEntity, String>{
+public class PlantaController{
 
     @Autowired
     private PlantaRepository plantaRepository;
@@ -28,50 +32,32 @@ public class PlantaController implements GenericController<PlantaEntity, String>
     private PlantaService plantaService;
 
     @GetMapping("/plantas")
-    @Override
-    public ResponseEntity<List<PlantaEntity>> listAll() {
-        List<PlantaEntity>plantaEntities = plantaRepository.findAll();
-        return ResponseEntity.ok(plantaEntities);
+    public ResponseEntity<Page<PlantaEntity>> listAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size,
+            Pageable pageable) {
+        Page<PlantaEntity> plantaPage = plantaService.listAll(PageRequest.of(page, size));
+        return ResponseEntity.ok(plantaPage);
     }
 
+    @GetMapping("/get-planta-to-projeto")
+    public ResponseEntity<List<PlantaEntity>> listAll(){
+        return ResponseEntity.ok(this.plantaRepository.findAll());
+    }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> edit(@RequestBody @Valid PlantaDTO entity, @PathVariable Long id){
-        Optional<PlantaEntity> plantaOptional = plantaRepository.findById(id);
-
-        if (plantaOptional.isPresent()) {
-            PlantaEntity plantaEntity = plantaOptional.get();
-            plantaEntity.setNome(entity.nome());
-            plantaEntity.setNome_cientifico(entity.nome_cientifico());
-            plantaEntity.setDescricao(entity.descricao());
-            plantaEntity.setOrigem(entity.origem());
-            plantaEntity.setCuidados(entity.cuidados());
-            Date date;
-            plantaEntity.setDataregistro(Date.valueOf(entity.dataregistro()));
-            if(!Utils.findMatchEnum(entity.categoria(), CategoriaEnum.class)){throw new RuntimeException("Enum invalido");}
-            plantaEntity.setCategoria(CategoriaEnum.valueOf(entity.categoria().toUpperCase()));
-
-            plantaRepository.save(plantaEntity);
-            return ResponseEntity.ok("Planta atualizada com sucesso");
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            boolean isExecuted = plantaService.edit(entity, id);
+            if(!isExecuted){
+                return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("nao aconteceu nada");
+            }
+            return ResponseEntity.status(HttpStatus.OK).body("editado");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-
-
-    @Deprecated
-    @Override
-    public ResponseEntity<String> update(Long id, PlantaEntity updatedEntity) {
-        return null;
-    }
-
-    //@PostMapping("/criar")
-    @Deprecated
-    @Override
-    public ResponseEntity<String> create(@RequestBody @Valid PlantaEntity entity) {
-        return null;
-    }
 
     @PostMapping("/criar")
     public ResponseEntity<String> create(@RequestBody @Valid PlantaDTO entity) {
@@ -80,7 +66,6 @@ public class PlantaController implements GenericController<PlantaEntity, String>
     }
 
     @DeleteMapping("/{id}")
-    @Override
     public ResponseEntity<String> delete(Long id) {
         Optional<PlantaEntity> plantaEntityOptional = plantaRepository.findById(id);
 
@@ -93,7 +78,6 @@ public class PlantaController implements GenericController<PlantaEntity, String>
     }
 
     @GetMapping("/{id}")
-    @Override
     public ResponseEntity<PlantaEntity> getById(Long id) {
         Optional<PlantaEntity> planta = plantaRepository.findById(id);
         if (planta.isPresent()) {
