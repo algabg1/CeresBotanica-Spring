@@ -43,6 +43,7 @@ public class SecurityConfigurations {
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/projeto/**").hasRole("USER")
                         .requestMatchers("/planta/plantas").hasRole("USER")
+                        .requestMatchers("/projeto-planta/**").hasRole("USER")
                         .requestMatchers("/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
