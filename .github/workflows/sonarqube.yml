@@ -13,10 +13,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 22
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: 22
+          java-version: 17
           distribution: 'zulu' # Alternative distribution options are available.
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
@@ -28,9 +28,10 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-m2-${{ hashFiles('demo/**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
+        working-directory: demo  # Define o diretório de trabalho para a pasta demo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
